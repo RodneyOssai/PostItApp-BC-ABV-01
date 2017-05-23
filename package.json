@@ -1,0 +1,27 @@
+{
+  "name": "postitapp-bc-abv-01",
+  "version": "1.0.0",
+  "description": "PostIt is a simple application that allows friends and colleagues create accountsand then send messages\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D and then send message",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "firebase": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RodneyOssai/PostItApp-BC-ABV-01.git"
+  },
+  "author": "Rodney Ossai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RodneyOssai/PostItApp-BC-ABV-01/issues"
+  },
+  "homepage": "https://github.com/RodneyOssai/PostItApp-BC-ABV-01#readme"
+}
