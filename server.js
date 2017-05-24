@@ -30,7 +30,7 @@ const config = {
     messagingSenderId: "424867635563"
   };
 firebase.initializeApp(config);
-let db = firebase.database().ref("users");
+let db = firebase.database();
 module.exports = db;
 
 // body parser, to grab information from POST requests

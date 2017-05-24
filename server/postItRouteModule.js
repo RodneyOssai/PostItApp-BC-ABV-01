@@ -2,7 +2,8 @@
 
 let express = require('express')
 let router = express.Router();
-var db  = require('../server')
+let db  = require('../server')
+let firebase = require("firebase");
 
 // Home page route
 router.get('/', function (req, res) {
@@ -11,17 +12,39 @@ router.get('/', function (req, res) {
 router.route('/user/signup')
 	 //create a user
   .post(function(req, res) {
-    var user = {};
-    user.username = req.body.name;
-    user.password =req.body.password;
-    user.email = req.body.email;
-        db.push({
-      name: req.body.name,
-      password: req.body.password,
-      email: req.body.email,
-      
-    }).then(function() {
-        res.json({ message: "Success: User created."});
+	var users = {	username:req.body.username,
+					password:req.body.password, 
+					email:req.body.email 
+					};
+	firebase.auth().createUserWithEmailAndPassword(users.email, users.password)
+			.then(function(userRecord) {
+    // A UserRecord representation of the newly created user is returned
+			users.uid = userRecord.uid;
+			res.send(users)
+			db.push({users}).set({users});
+  }).catch(function(error){
+      res.json({ message: error.message});
+    })
+  })
+  
+ router.route('/user/signin')
+	 //Sign into the application
+  .post(function(req, res) {
+	let email = req.body.email; 
+	let password = req.body.password;			
+	firebase.auth().signInWithEmailAndPassword(email,password).then(function() {
+        res.json({ message: "Success: Logged In."});
+    }).catch(function(error){
+      res.json({ message: error.message});
+    })
+  })
+  router.route('/group')
+	 //CREATE BROADCAST GROUP
+  .post(function(req, res) {
+	let email = req.body.email; 
+	let password = req.body.password;			
+	firebase.auth().signInWithEmailAndPassword(email,password).then(function() {
+        res.json({ message: "Success: Logged In."});
     }).catch(function(error){
       res.json({ message: error.message});
     })
@@ -29,9 +52,10 @@ router.route('/user/signup')
 
 
 // DashBoard page route
-router.get('/dashboard', function (req, res) {
-  res.send('if you sucessfully sign up')
-})
+router.route('/user/dashboard')
+	.get(function (req, res) {
+		res.send('if you sucessfully sign up')
+	})
 
 
 
