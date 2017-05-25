@@ -4,7 +4,8 @@ let express = require('express')
 let router = express.Router();
 let db  = require('../server')
 let firebase = require("firebase");
-
+usersTable = db.ref('users')
+groupsTable = db.ref('group')
 // Home page route
 router.get('/', function (req, res) {
   res.send('PostIt Home Page')
@@ -19,9 +20,9 @@ router.route('/user/signup')
 	firebase.auth().createUserWithEmailAndPassword(users.email, users.password)
 			.then(function(userRecord) {
     // A UserRecord representation of the newly created user is returned
-			users.uid = userRecord.uid;
-			res.send(users)
-			db.push({users}).set({users});
+			userID = userRecord.uid;
+			usersTable.set({userID:users});
+			res.send(userID)
   }).catch(function(error){
       res.json({ message: error.message});
     })
@@ -38,18 +39,26 @@ router.route('/user/signup')
       res.json({ message: error.message});
     })
   })
-  router.route('/group')
+  
 	 //CREATE BROADCAST GROUP
-  .post(function(req, res) {
-	let email = req.body.email; 
-	let password = req.body.password;			
-	firebase.auth().signInWithEmailAndPassword(email,password).then(function() {
-        res.json({ message: "Success: Logged In."});
-    }).catch(function(error){
-      res.json({ message: error.message});
-    })
-  })
-
+firebase.auth().onAuthStateChanged(function(user) {
+	if (user){
+		router.route('/group')
+			.post(function(req,res){
+				let groupName = req.body.groupName;
+				let firstMember = 198393938393
+				userRecord.uid;
+				groupsTable.push({name:groupName,members:{firstMember}});
+				
+				res.send("You just Successfully created"+groupName)
+				
+				
+			})
+	}else{
+		//do that
+	}
+})
+  
 
 // DashBoard page route
 router.route('/user/dashboard')

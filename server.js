@@ -18,7 +18,6 @@ const app = express();
 const firebase = require("firebase");
 const port = process.env.PORT || 9201; 
 const bodyParser = require('body-parser');
-//var router = express.Router();  //Remove if it causes problems
 
 //Start Up Firebase
 const config = {
@@ -41,13 +40,7 @@ app.use(bodyParser.json());
 
 var routes = require('./server/postItRouteModule.js')
 app.use('/',routes )
-//Middlewares basically intercepts incoming http request and as such you can use them to perform several operations ranging from authentication to validations
-//router.use(function(req, res, next) {
-	// this is where we authenticate users
-//	res.status(404).send({url: req.originalUrl + ' not found'})
-//	console.log("someone just came to the app");
-//	next();
-//});
+
 app.get('/', function(req, res) {
 	res.send('welcome to the home page!');
 });
