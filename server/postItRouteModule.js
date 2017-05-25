@@ -13,16 +13,17 @@ router.get('/', function (req, res) {
 router.route('/user/signup')
 	 //create a user
   .post(function(req, res) {
-	var users = {	username:req.body.username,
+	var users = {	username:req.body.username,  // Create and obkect named users and populate it manually using contents of the document body
 					password:req.body.password, 
 					email:req.body.email 
 					};
-	firebase.auth().createUserWithEmailAndPassword(users.email, users.password)
-			.then(function(userRecord) {
+	firebase.auth().createUserWithEmailAndPassword(users.email, users.password) // Create account with firebase using object values
+			.then(function(userRecord) {                                        // Extract the UserID of the just created user
     // A UserRecord representation of the newly created user is returned
-			userID = userRecord.uid;
-			usersTable.set({userID:users});
-			res.send(userID)
+			users.uid = userRecord.uid;  // Push the UserID into the object
+
+			usersTable.set({userID:users}); 
+			res.send(users)
   }).catch(function(error){
       res.json({ message: error.message});
     })
@@ -46,16 +47,16 @@ firebase.auth().onAuthStateChanged(function(user) {
 		router.route('/group')
 			.post(function(req,res){
 				let groupName = req.body.groupName;
-				let firstMember = 198393938393
-				userRecord.uid;
+				let firstMember = 198393938393 //UserID of the group creator goes in here and is pushed in as first member
 				groupsTable.push({name:groupName,members:{firstMember}});
 				
-				res.send("You just Successfully created"+groupName)
+				res.send("You just Successfully created"+ groupName)
 				
 				
 			})
 	}else{
-		//do that
+		var message ="Please login to create a group.";
+		message;
 	}
 })
   
