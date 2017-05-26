@@ -67,7 +67,7 @@ router.route('/group/:groupId/user')
 .post((req, res) => {
   const groupKey = req.params.groupId;
   firebase.database().ref(`group/${groupKey}/members/`)
-  .push({ user: req.body.mail });
+  .push({ user: req.body.memberId }); //Get the ID of the member you are adding from Document body
   res.send('Successfully added user to the group !!');
 });
 
