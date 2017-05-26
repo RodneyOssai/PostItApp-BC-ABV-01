@@ -16,30 +16,31 @@ router.get('/', (req, res) => {
 router.route('/user/signup')
 	 //create a user
   .post((req, res) => {
-	const user = {	username:req.body.username,  // Create and object named users and populate it manually using contents of the document body
-					password:req.body.password, 
-					email:req.body.email 
+  		const user = {	username:req.body.username,  // Create and object named users and populate it manually using contents of the document body
+						password:req.body.password, 
+						email:req.body.email 
 					};
-	firebase.auth().createUserWithEmailAndPassword(user.email, user.password) // Create account with firebase using object values
-			.then(userRecord => {                                        // Extract the UserID of the just created user
-    // A UserRecord representation of the newly created user is returned
-			user.uid = userRecord.uid;  // Push the UserID into the object
-			usersRef.set({userID:users}); 
-			res.send(users)
-  }).catch(error => {
-      res.json({ message: error.message});
+					firebase.auth().createUserWithEmailAndPassword(user.email, user.password) // Create account with firebase using object values
+	.then(userRecord => {        
+			user.uid = userRecord.uid;  // Push the UserID into the user object
+			let userID = userRecord.uid
+			usersRef.update({[userID] :user}); //Push to the database using uid as key
+			res.send(user) })
+	.catch(error => {
+			res.json({ message: error.message});
     })
   })
 
 router.route('/user/signin')
     //Sign into the application
- .post((req, res) => {
-   let email = req.body.email; 
-   let password = req.body.password;			
-   firebase.auth().signInWithEmailAndPassword(email,password).then(() => {
-       res.json({ message: "Success: Logged In."});
-   }).catch(error => {
-     res.json({ message: error.message});
+	 .post((req, res) => {
+			let email = req.body.email; 
+			let password = req.body.password;			
+			firebase.auth().signInWithEmailAndPassword(email,password).then(() => {
+			res.json({ message: "Success: Logged In."});
+		})
+		.catch(error => {
+			res.json({ message: error.message});
    })
  })
 
@@ -49,16 +50,27 @@ firebase.auth().onAuthStateChanged(user => {
 		router.route('/group')
 			.post((req, res) => {
 				let groupName = req.body.groupName;
-				let firstMember = user.uid; //UserID of the group creator goes in here and is pushed in as first member
-				groupsRef.push({name:groupName,members:{firstMember}});
-				
-				res.send(`You just Successfully created${groupName}.`)
-							
+				let groupDescription = req.body.groupDescription;
+				let groupCreator = user.uid; //UserID of the group creator goes in here and is pushed in as first member
+				groupsRef.push({name:groupName,Description:groupDescription,members:{groupCreator}});
+				res.send(`You just Successfully created ${groupName}.`)				
 			})
 	}else{
+
 		const message ="Please login to create a group.";
 		message;
 	}
-})
+ })
+// Add Members Route
 
+firebase.auth().onAuthStateChanged(user => {
+	if (user){
+		router.route('/group/:groupId/user')
+			.post((req, res,firebase) => {
+				
+			})
+	}else{
+			//Execute failure condition
+	}
+ });
 module.exports = router;
