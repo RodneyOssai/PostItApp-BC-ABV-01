@@ -63,14 +63,12 @@ firebase.auth().onAuthStateChanged(user => {
  })
 // Add Members Route
 
-firebase.auth().onAuthStateChanged(user => {
-	if (user){
-		router.route('/group/:groupId/user')
-			.post((req, res,firebase) => {
-				
-			})
-	}else{
-			//Execute failure condition
-	}
- });
+router.route('/group/:groupId/user')
+.post((req, res) => {
+  const groupKey = req.params.groupId;
+  firebase.database().ref(`group/${groupKey}/members/`)
+  .push({ user: req.body.mail });
+  res.send('Successfully added user to the group !!');
+});
+
 module.exports = router;

@@ -25,7 +25,8 @@
     "webpack": "^2.6.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -36,5 +37,6 @@
   "bugs": {
     "url": "https://github.com/RodneyOssai/PostItApp-BC-ABV-01/issues"
   },
-  "homepage": "https://github.com/RodneyOssai/PostItApp-BC-ABV-01#readme"
+  "homepage": "https://github.com/RodneyOssai/PostItApp-BC-ABV-01#readme",
+  "keywords": []
 }
