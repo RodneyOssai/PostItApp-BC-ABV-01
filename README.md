@@ -1,6 +1,7 @@
 # PostItApp-BC-ABV-01
 PostIt is a simple application that allows friends and colleagues create accounts, create groups and add registered users to the groups, and then send messages out to these groups whenever they want.
-# Prerequisite
+# Getting Started
+You will need <br>
 Node<br>
 A git  Environment to enable you clone this repo.<br>
 PostMan For Testing - use x-www-formurlencoded parameters.<br>
